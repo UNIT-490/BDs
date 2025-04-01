@@ -1,0 +1,60 @@
+Código para criação de um banco de dados para uma oficina:
+
+create database oficina;
+use table oficina;
+
+CREATE TABLE Clientes (
+    ClienteID INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Endereco VARCHAR(200),
+    Telefone VARCHAR(15),
+    Email VARCHAR(100)
+);
+
+
+CREATE TABLE Veiculos (
+    VeiculoID INT AUTO_INCREMENT PRIMARY KEY,
+    ClienteID INT,
+    Marca VARCHAR(50),
+    Modelo VARCHAR(50),
+    Ano INT,
+    Placa VARCHAR(10),
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
+);
+
+
+CREATE TABLE Funcionarios (
+    FuncionarioID INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Cargo VARCHAR(50),
+    Telefone VARCHAR(15),
+    Email VARCHAR(100)
+
+CREATE TABLE Servicos (
+    ServicoID INT AUTO_INCREMENT PRIMARY KEY,
+    Descricao TEXT,
+    Preco DECIMAL(10, 2)
+);
+
+
+CREATE TABLE OrdensServico (
+    OrdemServicoID INT AUTO_INCREMENT PRIMARY KEY,
+    VeiculoID INT,
+    FuncionarioID INT,
+    DataAbertura DATE,
+    DataFechamento DATE,
+    Status ENUM('Aberto', 'Fechado', 'Cancelado'),
+    FOREIGN KEY (VeiculoID) REFERENCES Veiculos(VeiculoID),
+    FOREIGN KEY (FuncionarioID) REFERENCES Funcionarios(FuncionarioID)
+);
+
+ 
+CREATE TABLE OrdemServico_Servicos (
+    OrdemServicoID INT,
+    ServicoID INT,
+    Quantidade INT,
+    Subtotal DECIMAL(10, 2),
+    PRIMARY KEY (OrdemServicoID, ServicoID),
+    FOREIGN KEY (OrdemServicoID) REFERENCES OrdensServico(OrdemServicoID),
+    FOREIGN KEY (ServicoID) REFERENCES Servicos(ServicoID)
+);
